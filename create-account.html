@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My First Realistic Web Page</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="landing.css">
+</head>
+
+<body>
+
+    
+
+
+    <main>
+
+
+
+        <div class="landingContainer">
+
+            <div>
+                <h1>Movie Mingle</h1>
+
+
+            </div>
+
+            <div>
+
+                Create your account:
+
+
+
+                <form id="create_account_form" action="create-account.php" method="post">
+
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+
+                    <br />
+
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+
+                    <br />
+
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <br />
+
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="Confirm password"
+                        required>
+                    <br />
+
+
+                    <button type="submit">Create Account</button>
+
+                    <a href="landing.php">Back to login ></a>
+
+                </form>
+            </div>
+
+        </div>
+
+
+
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("create_account_form");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("password_confirm");
+
+            form.addEventListener("submit", function (event) {
+                if (password.value !== confirmPassword.value) {
+                    event.preventDefault(); 
+                    alert("Passwords do not match!"); 
+                }
+            });
+        });
+
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("email") && params.get("email") === "in_use") {
+            // Trigger a toast or alert for success
+            showToast("This email is already in use!");  // Show message if email is in use
+            
+            // Clean up the URL by removing the parameter to avoid it reappearing on reload
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Function to show a toast message (using alert for now, you can replace it with a real toast)
+        function showToast(message) {
+            alert(message); // For now, using alert as a placeholder
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
