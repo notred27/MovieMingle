@@ -3,14 +3,23 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #141414;
+    color: #fff;
 }
 
 header {
-    background-color: #333;
+    background-color: #282828;
     color: #fff;
     padding: 10px 0;
     text-align: center;
+}
+
+header a:link {
+    color: #fff;
+}
+
+header a:visited {
+    color: #fff;
 }
 
 /* footer {
@@ -79,6 +88,7 @@ main {
     flex-direction: row;
     gap: 20px;
     overflow-x: scroll;
+    height: max-content;
 }
 
 
@@ -110,12 +120,13 @@ footer {
     width: 300px;
     min-width: 300px;
     height: 170px;
-    background-color: #adadad;
+    background-color: #282828;
     display: flex;
     flex-direction: row;
     position: relative;
     margin: 5px;
     border-radius: 4px;
+    color:#DEDEDE;
 
 }
 
@@ -158,64 +169,101 @@ footer {
 
 
 .movieReview {
-    width: 400px;
-    min-width: 300px;
-    height: 190px;
-    background-color: #adadad;
-    display: flex;
-    flex-direction: row;
+    width: 520px;
+    min-width: 520px;
+    height: 240px;
+    background-color: #282828;
+    display: grid;
+    grid-template-columns: 160px 1fr;
     position: relative;
-    margin: 5px;
+    margin: 0px;
     border-radius: 4px;
+    color: black;
+    overflow: hidden;
 }
 
-.movieReview > div > div{
-    display: flex;
-    flex-direction: row;
-    /* justify-content: center; */
-    align-items: center;
-
-}
-
-.movieReview > div > div > img {
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
+.reviewGrid {
+    display: grid;
+    grid-template-rows: 30px 25px 155px 12px;
     padding: 5px;
+    height:220px;
+    max-height: 220px;
 }
 
-.movieReview > img {
-    width: 100px;
-    height: 160px;
-    padding: 15px 5px 15px 5px;
+.profileImg {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
 }
+
+.movieReview > a > img {
+    width: 160px;
+    height: 240px;
+}
+
 
 .movieReview h4 {
-    margin: 4px 0px 4px 0px;
+    margin: 0px;
+    font-size: 20px;
+    color: #BFFC57;
 }
 
-.movieReview p {
-    margin: 4px 0px 4px 0px;
+
+.movieReview .profileRow{
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.movieReview a {
+    font-size: 18px;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.movieReview a:visited {
+    color: white;
+}
+
+.movieReview a:link {
+    color: white;
+}
+
+.movieReview h6 {
+    margin: 0px;
     font-size: small;
+    color: #bbbbbb;
+    font-style: italic;
+    justify-self: end;
+    font-size: 12px;
+}
+
+
+.movieReview p {
+    font-family: 'Open Sans';
+    margin: 10px 0px 0px 0px;
+    font-size: 12px;
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
+    -webkit-line-clamp: 7; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 280px;       
-}
-
-.movieReview span {
-    font-size: small;
-    font-style: italic;
-    font-weight: bold;
-}
-
-.movieReview > div > a {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    font-size: small;
+    max-width: 360px;       
+    height: 130px;
+    color:#DEDEDE;
+    padding: 5px;
 }
 
 
+
+
+
+
+.container {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.container::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}

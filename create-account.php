@@ -71,7 +71,7 @@ try {
                 exit();
             } else {
                 echo "Error: " . $stmt->error;
-                header("Location: error.html");
+                header("Location: ./../error.html");
 
             }
 
@@ -79,7 +79,7 @@ try {
             $stmt->close();
         } else {
             echo "Error executing query: " . $conn->error;
-            header("Location: error.html");
+            header("Location: ./../error.html");
 
         }
 

@@ -33,7 +33,7 @@ try {
     }
 
     // Check if username exists, and retrieve hash
-    $sql = "SELECT password_hash FROM user WHERE display_name = ?";
+    $sql = "SELECT * FROM user WHERE display_name = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $user_name);
     $stmt->execute();
@@ -53,6 +53,8 @@ try {
             // Correct credentials, update session
             $_SESSION['user_logged_in'] = true;
             $_SESSION['display_name'] = $user_name;
+            $_SESSION['user_id'] = $row['user_id'];
+
 
             header("Location: home.php");
 

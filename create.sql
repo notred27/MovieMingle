@@ -2,9 +2,10 @@ create table movie
 (
 	imdb			varchar(9) not NULL,
 	title			varchar(30) not NULL,
-	release_date	date,
+	release_year	year,
 	runtime	 		time,
 	movie_desc		text,
+	movie_poster 	text,
 
 	primary key (imdb)
 );
