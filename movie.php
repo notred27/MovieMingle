@@ -97,6 +97,12 @@ $stmt->bind_param("s", $target_imdb);
 $stmt->execute();
 $avg_rating = $stmt->get_result()->fetch_assoc();
 
+$sql = "SELECT AVG(rating) as rating FROM review WHERE imdb = ? and user_id IN (SELECT friend_id FROM friends WHERE user_id = ?);";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ss", $target_imdb, $_SESSION["user_id"]);
+$stmt->execute();
+$avg_friend_rating = $stmt->get_result()->fetch_assoc();
+
 
 ?>
 
@@ -106,11 +112,12 @@ $avg_rating = $stmt->get_result()->fetch_assoc();
 <html lang="en">
 
 <head>
-    <title>My First Realistic Web Page</title>
+    <title>Movie Mingle</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="moviepage.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="movieReviewPreview.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -121,9 +128,8 @@ $avg_rating = $stmt->get_result()->fetch_assoc();
 
     <main>
 
-
-    <div id = "reviewMenu" style = "display:none; width:60vw; height:70vh; background-color:red; position:absolute; top:15vh; left:20vw; z-index:200;">
-
+<!-- Create a form to add new reviews -->
+    <div id = "reviewMenu" style = "display:none; width:60vw; height:70vh; background-color:#282828; position:absolute; top:15vh; left:20vw; z-index:200;">
         <form  action="create-review.php" method="post" >
             <input type="number" min="0" max = "10" id="rating" name="rating" placeholder="Rating" required>
             <br/>
@@ -148,74 +154,68 @@ $avg_rating = $stmt->get_result()->fetch_assoc();
 
             <input type="hidden"  id = "imdb" name="imdb" value="<?php echo $target_imdb; ?>"> </input>
 
-
             <button type="submit">Create Review</button>
 
             <button onclick = "toggleReviewMenu()">Cancel</button>
-
-
         </form>
     </div>
 
-    <div style="display:flex;flex-direction:row;">
-        <?php
 
-            echo '<img class = "movieImg" alt = "movieBanner" src="' . $movie["movie_poster"] . '" >';
+
+
+    <div class = "movieContainer" >
+        <?php
+            // Format the runtime
+            $runtime = $movie["runtime"];
+            $timeParts = explode(":", $runtime);
+            if (count($timeParts) == 3) {
+                $hours = (int)$timeParts[0];
+                $minutes = (int)$timeParts[1];
+                $r = $hours . "h " . $minutes . "m";
+            } else {
+                $r = $runtime;
+            }
+
+            // // Generate stars (example: assuming a rating integer value)
+            // $rating = $avg_rating["rating"] / 2; 
+            // $ratingHTML = '<span>';
+            // for ($i = 1; $i <= 5; $i++) {
+            //     if ($i <= $rating) {
+            //         $ratingHTML .= '<span class="fa fa-star checked"></span>';
+            //     } else {
+            //         $ratingHTML .= '<span class="fa fa-star"></span>';
+            //     }
+            // }
+            // $ratingHTML .= '(' . $avg_rating["rating"] . ')</span>';
+
+            
+            // $friend_rating = $avg_friend_rating["rating"] / 2; 
+            // $ratingHTML2 = '<span>';
+            // for ($i = 1; $i <= 5; $i++) {
+            //     if ($i <= $rating) {
+            //         $ratingHTML2 .= '<span class="fa fa-star checked"></span>';
+            //     } else {
+            //         $ratingHTML2 .= '<span class="fa fa-star"></span>';
+            //     }
+            // }
+            // $ratingHTML2 .= '(' . $avg_friend_rating["rating"] . ')</span>';
+
+            if (!function_exists('generate_stars')) {
+                include("stars.php");
+            }
+             
+
+            echo '<img id = "moviePoster" alt = "movieBanner" src="' . $movie["movie_poster"] . '" > 
+            <h1 id = "movieTitle">' . $movie["title"] . '<span> (' . $movie["release_year"] . ')</span></h1> 
+            <h4 id = "movieRuntime">' . $r . '</h4> 
+            <p id = "movieDesc">' . $movie["movie_desc"] . '</p> 
+            <h3 id = "overallRating">Overall Rating:</h3> <span id = "overallStars">' .generate_stars($avg_rating["rating"]) . '(' . $avg_rating["rating"] . ')</span> 
+            <h3 id = "followingRating">Rating Among Friends:</h3> <span id = "followingStars">' .generate_stars($avg_friend_rating["rating"]) . '(' . $avg_friend_rating["rating"] . ')</span>';
         ?>
 
-        <div>
-            <?php
-
-                echo '<h1>' . $movie["title"] . '<span> (' . $movie["release_year"] . ')</span></h1>';
-
-
-                // Format the runtime
-                $runtime = $movie["runtime"];
-                $timeParts = explode(":", $runtime);
-                if (count($timeParts) == 3) {
-                    $hours = (int)$timeParts[0];
-                    $minutes = (int)$timeParts[1];
-                    $r = $hours . "h " . $minutes . "m";
-                } else {
-                    $r = $runtime;
-                }
-
-                echo '<h4>' . $r . '</h4>';
-
-                echo '<p>' . $movie["movie_desc"] . '</p>';
-
-
-
-                // Generate stars (example: assuming a rating integer value)
-                $rating = $avg_rating["rating"] / 2; 
-                $ratingHTML = '<span>';
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= $rating) {
-                        $ratingHTML .= '<span class="fa fa-star checked"></span>';
-                    } else {
-                        $ratingHTML .= '<span class="fa fa-star"></span>';
-                    }
-                }
-                $ratingHTML .= '(' . $avg_rating["rating"] . ')</span>';
-
-                echo '<h3>Overall Rating: <span>' . $ratingHTML . '</span></h3>';
-
-
-                echo '<h3>Rating Among Friends: <span>' . $ratingHTML . '</span></h3>';
-
-
-
-
-
-
-
-            ?>
-
-            Movie Genres
-        </div>
+        <button id = "reviewBtn" onclick = "toggleReviewMenu()">Create A New Review!</button>
     </div>
 
-    <button onclick = "toggleReviewMenu()">Add a new review!</button>
 
 
     <h3>You may also like</h3>

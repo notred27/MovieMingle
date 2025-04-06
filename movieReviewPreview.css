@@ -1,0 +1,122 @@
+.movieReview {
+    
+    background-color: #282828;
+    position: relative;
+    margin: 0px;
+    border-radius: 4px;
+    color: black;
+    overflow: hidden;
+}
+
+.PreviewContainer {
+    width: 520px;
+    min-width: 520px;
+    height: 240px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+
+}
+
+.FullContainer {
+    width: 520px;
+    min-width: 520px;
+    height: 330px;
+}
+
+.PreviewContainer > .reviewGrid {
+    display: grid;
+    grid-template-rows: 30px 25px 155px 12px;
+    padding: 5px;
+    height:220px;
+    max-height: 220px;
+}
+
+.FullContainer > .reviewGrid {
+    display: grid;
+    grid-template-rows: 30px 258px 12px;
+    padding: 15px;
+    height:300px;
+    max-height: 300px;
+}
+
+
+.profileImg {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+}
+
+.movieReview > a > img {
+    width: 160px;
+    height: 240px;
+}
+
+
+.movieReview h4 {
+    margin: 0px;
+    font-size: 20px;
+    color: #BFFC57;
+}
+
+.movieReview .profileRow{
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.movieReview a {
+    font-size: 18px;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.movieReview a:visited {
+    color: white;
+}
+
+.movieReview a:link {
+    color: white;
+}
+
+.movieReview h6 {
+    margin: 0px;
+    font-size: small;
+    color: #bbbbbb;
+    font-style: italic;
+    justify-self: end;
+    font-size: 12px;
+}
+
+
+.previewReviewText {
+    font-family: 'Open Sans';
+    margin: 10px 0px 0px 0px;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 7; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 360px;       
+    height: 130px;
+    color:#DEDEDE;
+    padding: 5px;
+}
+
+
+.fullReviewText {
+    font-family: 'Open Sans';
+    margin: 10px 0px 0px 0px;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 12; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;       
+    height: 240px;
+    color:#DEDEDE;
+    padding: 5px;
+}

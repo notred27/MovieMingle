@@ -1,8 +1,61 @@
+.movieImg {}
 
+.movieContainer {
+    display: grid;
+    grid-template-columns: 270px 270px 270px 200px;
+    grid-template-rows: 50px 50px 1fr repeat(2, 50px) 20px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
 
-.movieImg {
-    width: 180px;
-    height: 280px;
+#movieTitle {
+    grid-area: 1 / 2 / 2 / 6;
+}
+
+#moviePoster {
+    grid-area: 1 / 1 / 7 / 2;
+
+    width: 254px;
+    height: 380px;
     border-radius: 4px;
     padding: 5px;
+}
+
+#movieRuntime {
+    grid-area: 2 / 2 / 3 / 6;
+}
+
+#movieDesc {
+    grid-area: 3 / 2 / 4 / 6;
+}
+
+#movieGenres {
+    grid-area: 6 / 2 / 7 / 6;
+}
+
+#overallRating {
+    grid-area: 4 / 2 / 5 / 3;
+    margin: 0px;
+}
+
+#overallStars {
+    grid-area: 4 / 3 / 5 / 4;
+}
+
+#followingRating {
+    grid-area: 5 / 2 / 6 / 3;
+    margin: 0px;
+}
+
+#followingStars {
+    grid-area: 5 / 3 / 6 / 4;
+}
+
+#reviewBtn {
+    grid-area: 4 / 4 / 6 / 5;
+    height:50px;
+    font-size: larger;
+    color: black;
+    background-color: #D5FC51;
+    border: none;
 }

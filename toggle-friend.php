@@ -11,8 +11,7 @@ $password = "x-YeHnaY";
 $dbname = "mreidy3_1";
 
 
-$friend_id = $_POST['friend_id']; 
-
+$friend_id = $_GET['friend_id']; 
 
 // Connect to the database
 try {
@@ -30,7 +29,6 @@ try {
 
 
     if ($stmt->execute()) {
-        echo "Success";
 
 
         if($stmt->get_result()->fetch_assoc()["c"] == 0) {
@@ -42,19 +40,22 @@ try {
             $stmt = $conn->prepare("INSERT into friends values (?, ?, ?)");
             $stmt->bind_param("sss", $_SESSION["user_id"], $friend_id, $date);
             $stmt->execute();
+            echo 'Following';
 
         } else {
             $stmt = $conn->prepare("DELETE FROM friends WHERE user_id = ? AND friend_id = ?");
             $stmt->bind_param("ss", $_SESSION["user_id"], $friend_id);
             $stmt->execute();
+            echo 'Follow';
+
         }
 
-        header("Location: ./userpage.php?USER=" . $friend_id);
+        // header("Location: ./userpage.php?USER=" . $friend_id);
         exit();
 
     } else {
         echo "Error: " . $stmt->error;
-        header("Location: ./error.html");
+        // header("Location: ./error.html");
 
     }
 
