@@ -1,5 +1,6 @@
 <?php
 // load_rows.php
+require("db-connect.php");
 
 include('movieReviewPreview.php');
 
@@ -23,27 +24,8 @@ switch ($sort) {
   default:
     $order = "ORDER BY watch_date DESC";
 }
-session_start();
-
-if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-    header('Location: landing.php');
-    exit;
-}
 
 
-// Database connection details
-$servername = "localhost";
-$username = "mreidy3"; 
-$password = "x-YeHnaY";   
-$dbname = "mreidy3_1";
-
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT * FROM review WHERE user_id = ? $order;";
 $stmt = $conn->prepare($sql);

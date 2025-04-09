@@ -27,10 +27,11 @@ create table user
 	password_hash 	varchar(255) not NULL,
 	email			varchar(255) not NULL,
 	date_joined 	date not NULL,
-
-
+	
 	-- Maybe make this a new table for storage if people don't have these?
 	favorite_movie 	varchar(9) default NULL,
+	user_img 		text,
+
 
 	primary key (user_id),
 	foreign key (favorite_movie) references movie(imdb) on delete cascade
@@ -76,39 +77,45 @@ create table review
 
 create table poll 
 (
+	poll_id     int AUTO_INCREMENT,
 	user_id 	varchar(10) not NULL,
 	post_date 	datetime not NULL,
 	content 	text,
 	in_club 	varchar(20) not NULL,
-	likes 		int default 0 not NULL check (likes >= 0),
-	dislikes 	int default 0 not NULL check (dislikes >= 0),
 
-	primary key (user_id, post_date),
+	primary key (poll_id),
 	foreign key (user_id) references user(user_id) on delete cascade,
 	foreign key (in_club) references club(club_name) on delete cascade
 );
 
 CREATE TABLE poll_option (
-    user_id      VARCHAR(10) NOT NULL,
-    post_date    DATETIME NOT NULL,
+	poll_id      INT NOT NULL,
+	option_id    INT AUTO_INCREMENT,
     option_desc  VARCHAR(30) NOT NULL,
-    votes        INT DEFAULT 0 NOT NULL,
 
-    PRIMARY KEY (user_id, post_date, option_desc),
-	FOREIGN KEY (user_id, post_date) REFERENCES poll(user_id, post_date) ON DELETE CASCADE
+    PRIMARY KEY (option_id),
+	FOREIGN KEY (poll_id) REFERENCES poll(poll_id) ON DELETE CASCADE
 );
 
 create table poll_about 
 (
-	user_id 	varchar(10) not NULL,
-	post_date 	datetime not NULL,
+	poll_id      INT NOT NULL,
 	imdb 		varchar(9) not NULL,
 
-	primary key (user_id, post_date, imdb),
-	FOREIGN KEY (user_id, post_date) REFERENCES poll(user_id, post_date) ON DELETE CASCADE,
+	primary key (poll_id, imdb),
+	FOREIGN KEY (poll_id) REFERENCES poll(poll_id) ON DELETE CASCADE,
 	foreign key (imdb) references movie(imdb) on delete cascade
 );
 
+CREATE TABLE poll_vote (
+    user_id    VARCHAR(10) NOT NULL,
+    poll_id     INT NOT NULL,
+    option_id   INT NOT NULL,
+
+    PRIMARY KEY (user_id, poll_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (poll_id, option_id) REFERENCES poll_option(poll_id, option_id) ON DELETE CASCADE
+);
 
 
 create table club_topics
@@ -130,6 +137,9 @@ create table member_of
 	foreign key (club_name) references club(club_name) on delete cascade,
 	foreign key (user_id) references user(user_id) on delete cascade
 );
+
+
+
 
 -- create table manages
 -- (

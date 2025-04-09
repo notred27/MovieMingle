@@ -6,13 +6,13 @@ function generate_stars($rating) {
 
     for ($i = 1; $i <= 5; $i++) {
         if ($i <= floor($rating / 2)) {
-            $html .= '<img src = "l-star.png" style = "height:16px;"><img src = "r-star.png" style = "height:16px;">';
+            $html .= '<img src = "./assets/l-star.png" style = "height:16px;"><img src = "./assets/r-star.png" style = "height:16px;">';
     
         } else if ($i == ceil($rating / 2) && $rating % 2 != 0) {
-            $html .= '<img src = "l-star.png" style = "height:16px;"><img src = "r-hollow.png" style = "height:16px;">';
+            $html .= '<img src = "./assets/l-star.png" style = "height:16px;"><img src = "./assets/r-hollow.png" style = "height:16px;">';
     
         }  else {
-            $html .= '<img src = "l-hollow.png" style = "height:16px;"><img src = "r-hollow.png" style = "height:16px;">';
+            $html .= '<img src = "./assets/l-hollow.png" style = "height:16px;"><img src = "./assets/r-hollow.png" style = "height:16px;">';
 
         }
     }

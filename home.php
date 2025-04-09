@@ -1,37 +1,12 @@
 <?php
-    session_start();
+require("db-connect.php");
 
-    if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-        header('Location: landing.php');
-        exit;
-    }
-
-
-    // Database connection details
-$servername = "localhost";
-$username = "mreidy3"; 
-$password = "x-YeHnaY";   
-$dbname = "mreidy3_1";
-
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Write the SQL query to fetch all rows from the "movies" table
+// Fetch all movies
 $sql = "SELECT * FROM movie";
-
-// Execute the query and get the result
 $movies = $conn->query($sql);
 
-
-
+// Fetch all reviews
 $sql = "SELECT * FROM review ORDER BY watch_date DESC";
-
-// Execute the query and get the result
 $reviews = $conn->query($sql);
 
 

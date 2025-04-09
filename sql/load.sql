@@ -27,10 +27,10 @@ insert into movie_genres values ('1', 'drama');
 insert into movie_genres values ('2', 'tragedy');
 insert into movie_genres values ('2', 'romance');
 
-insert into user values ('2', 'Michael', 'password_tmp', 'john.doe@example.com', '2025-03-26', '0');
-insert into user values ('1', 'Not Michael', 'password_tmp', 'john.doe@example.com', '2025-03-27', NULL);
-insert into user values ('0', 'root', '$2y$10$iXMUSlYquk/cDhIQja0uQecNOX6iYNa5.T3nrmhSRMDk3CEVEDWze', 'john.doe@example.com', '2025-03-27', NULL);  -- this password is 'password'
-insert into user values ('3', 'Nobodys Friend', 'password_tmp', 'john.doe@example.com', '2025-03-26', '0');
+insert into user values ('2', 'Michael', 'password_tmp', 'john.doe@example.com', '2025-03-26', '0', 'https://avatar.iran.liara.run/public/boy?username=[Michael]');
+insert into user values ('1', 'Not Michael', 'password_tmp', 'john.doe@example.com', '2025-03-27', NULL, 'https://avatar.iran.liara.run/public/girl?username=[Not Michael]');
+insert into user values ('0', 'root', '$2y$10$iXMUSlYquk/cDhIQja0uQecNOX6iYNa5.T3nrmhSRMDk3CEVEDWze', 'john.doe@example.com', '2025-03-27', NULL, 'https://avatar.iran.liara.run/public/boy?username=[root]');  -- this password is 'password'
+insert into user values ('3', 'Nobodys Friend', 'password_tmp', 'john.doe@example.com', '2025-03-26', '0', 'https://avatar.iran.liara.run/public/boy?username=[Friend]');
 
 
 
@@ -54,17 +54,7 @@ insert into review values ('2', '0', '2025-03-27 17:30:00', 10, 'I can''t stop w
 
 
 
-insert into poll values ('0', '2025-03-27 14:00:00', 'Which of these movies do you like the best?', 'Ghibli Fans', 0, 0);
-insert into poll_option values ('0', '2025-03-27 14:00:00', 'Porco Rosso', 12);
-insert into poll_option values ('0', '2025-03-27 14:00:00', 'Princess Mononoke', 6);
-insert into poll_about values ('0', '2025-03-27 14:00:00', '0');
-insert into poll_about values ('0', '2025-03-27 14:00:00', '1');
 
-
-insert into poll values ('0', '2025-03-27 16:00:00', 'Did you like how The Wind Rises ended?', 'Ghibli Fans', 0, 0);
-insert into poll_option values ('0', '2025-03-27 14:00:00', 'Yes', 12);
-insert into poll_option values ('0', '2025-03-27 14:00:00', 'No', 6);
-insert into poll_about values ('0', '2025-03-27 14:00:00', '2');
 
 
 

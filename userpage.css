@@ -79,3 +79,19 @@
 #followingStats {
     grid-area: 2 / 4 / 3 / 5;
 }
+
+
+.userLink{
+    font-size: larger;
+    text-decoration: none;
+    font-weight: bold;
+    color: #D5FC51;
+    justify-content: center;
+    align-items: center;
+}
+
+.userLink > img{
+    width:40px;
+    height:40px; 
+    border-radius:20px;
+}

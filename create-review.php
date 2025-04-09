@@ -1,15 +1,5 @@
 <?php
-session_start(); // Start session
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Database connection details
-$servername = "localhost";
-$username = "mreidy3"; 
-$password = "x-YeHnaY";   
-$dbname = "mreidy3_1";
+require("db-connect.php");
 
 // Collect user input
 $rating = $_POST['rating']; 

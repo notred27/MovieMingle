@@ -1,27 +1,5 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-        header('Location: landing.php');
-        exit;
-    }
-
-    include('isFriend.php');
-
-
-    // Database connection details
-    $servername = "localhost";
-    $username = "mreidy3"; 
-    $password = "x-YeHnaY";   
-    $dbname = "mreidy3_1";
-
-    // Create a connection to the database
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require("db-connect.php");
 
     $target_user_id = htmlspecialchars($_GET["USER"]);
 
@@ -51,26 +29,58 @@
 </head>
 
 <body>
-    <?php include('web-header.php'); ?>
 
-    <main>
+<?php include('web-header.php'); ?>
+<main>
+
+    <?php 
+    
+        if (!function_exists('create_user_badge')) {
+            include("userBadge.php");
+        }
+    
+        $sql = "SELECT user.display_name, user.user_id, user.user_img FROM user JOIN friends on user.user_id = friends.user_id where friend_id = ?;";
+        // $sql = "SELECT user_id FROM friends WHERE friend_id = ?;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $target_user_id);
+        $stmt->execute();
+        $followers = $stmt->get_result();
+
+        // echo $f1->fetch_assoc()["user_id"];
+
+        $sql = " SELECT user.display_name, user.user_id, user.user_img FROM user JOIN friends on user.user_id = friends.friend_id where friends.user_id = ?;";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $target_user_id);
+        $stmt->execute();
+        $following = $stmt->get_result();
+
+
+        echo '<div id = "followersDiv" style="display:none;background-color:#282828; position:absolute; top:10vh; left:20vw; z-index:200; width:60vw; height:70vh;"><button onclick="toggleFollowersDiv()">Cancel</button> <br/> SEARCH <input></input><br/> <div style="overflow-y:scroll;height:60vh;">';
+
+        if ($followers->num_rows > 0) { 
+            while ($follower = $followers->fetch_assoc()) {
+                create_user_badge($follower, $conn);
+            }   
+        }
+        echo '</div></div>';
+
+
+        echo '<div id = "followingDiv" style="display:none;background-color:#282828; position:absolute; top:10vh; left:20vw; z-index:200; width:60vw; height:70vh;"><button onclick="toggleFollowingDiv()">Cancel</button> <br/> SEARCH <input></input><br/> <div style="overflow-y:scroll;height:60vh;">';
+        if ($following->num_rows > 0) { 
+            while ($follow = $following->fetch_assoc()) {
+                create_user_badge($follow, $conn);
+            }   
+        }
+        echo '</div></div>';
+    ?>
+
 
     <div id = "userHeader">
     <?php 
 
-        $sql = "SELECT COUNT(*) AS followers FROM friends WHERE friend_id = ?;";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $target_user_id);
-        $stmt->execute();
-        $f1 = $stmt->get_result()->fetch_assoc();
+        
 
-        $sql = "SELECT COUNT(*) AS f FROM friends WHERE user_id = ?;";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $target_user_id);
-        $stmt->execute();
-        $f2 = $stmt->get_result()->fetch_assoc();
-
-        echo '<img id="profileImg" src="me.png" alt="User icon"> <h1 id = "username" >' . $target_user["display_name"] .'</h1>';
+        echo '<img id="profileImg" src="' . $target_user["user_img"] . '" alt="User icon"> <h1 id = "username" >' . $target_user["display_name"] .'</h1>';
 
         if($target_user["user_id"] != $_SESSION["user_id"]) {
 
@@ -92,13 +102,18 @@
         } else {
             echo   '<button class = "userBtn"> Rename </button>
                     <div id = "editIcon">
-                        <img src="pencil.svg" alt="User icon" style="width:20px;height:20px;">
+                        <img src="./assets/pencil.svg" alt="User icon" style="width:20px;height:20px;">
                     </div>';
 
         }
 
-        echo '<span id = "followerStats"> '. $f1["followers"] .' followers</span> 
-              <span id = "followingStats"> '. $f2["f"] .' following</span>';
+        echo '<button id = "followerStats"  onclick="toggleFollowersDiv()" > '. $followers->num_rows .' followers</button> 
+              <button id = "followingStats" onclick="toggleFollowingDiv()" > '. $following->num_rows.' following</button>';
+
+
+              
+        
+        
     ?>
     </div>
 
@@ -111,7 +126,7 @@
 
     ?>
 
-    <h2>Your Reviews</h2>
+    <h2>Your Reviews <?php echo '(<span id="numReviews"> </span>)'; ?></h2>
 
     <label for="sort-option">Sort by:</label>
     <select name = "sort-option" id = "sort-option">
@@ -138,12 +153,16 @@
 
     <script>
         function sortReviews() {
+
             const sortOption = this.value;
 
             fetch(`load_rows.php?sort=${sortOption}&id=${<?php echo json_encode($target_user_id); ?>}`)
                 .then(response => response.text())
                 .then(data => {
-                document.getElementById('row-container').innerHTML = data;
+
+                    document.getElementById('row-container').innerHTML = data;
+                    document.getElementById('numReviews').innerHTML = document.getElementsByClassName('movieReview ').length;
+
                 })
                 .catch(error => console.error('Error fetching sorted data:', error));
         }
@@ -162,6 +181,7 @@
         fetch(`toggle-friend.php?friend_id=${<?php echo json_encode($target_user_id); ?>}`)
             .then(response => response.text())
             .then(data => {
+
                 const btn =  document.getElementById('toggleFollowBtn');
 
                 btn.textContent = data;
@@ -179,6 +199,29 @@
 
         // Add an event listener to the button to trigger the function on click
         document.getElementById('toggleFollowBtn').addEventListener('click', changeFriend);
+
+
+
+
+        
+    function toggleFollowingDiv() {
+        var div = document.getElementById("followingDiv");
+        if (div.style.display === "none") {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+
+    function toggleFollowersDiv() {
+        var div = document.getElementById("followersDiv");
+        if (div.style.display === "none") {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+   
     </script>
 </body>
 

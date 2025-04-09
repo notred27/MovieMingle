@@ -1,25 +1,5 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-        header('Location: landing.php');
-        exit;
-    }
-
-
-    // Database connection details
-$servername = "localhost";
-$username = "mreidy3"; 
-$password = "x-YeHnaY";   
-$dbname = "mreidy3_1";
-
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require("db-connect.php");
 
 include('movieReview.php');
 

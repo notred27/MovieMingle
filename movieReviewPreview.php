@@ -10,7 +10,7 @@ function create_movie_review_preview($review, $conn) {
     $result = $stmt->get_result()->fetch_assoc();
 
     // Get the display name of the user that posted the review
-    $sql = "SELECT display_name FROM user WHERE user_id = ?";
+    $sql = "SELECT display_name, user_img FROM user WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $review["user_id"]);
     $stmt->execute();
@@ -34,7 +34,7 @@ function create_movie_review_preview($review, $conn) {
                 <div class="reviewGrid"> 
                     <h4>' . $result['title'] . '</h4> 
                     <div class="profileRow">
-                        <img class = "profileImg" src="me.png" alt="User icon"> 
+                        <img class = "profileImg" src="' . $name['user_img'] . '" alt="User icon"> 
                         <a href ="userpage.php?USER=' . $review["user_id"] . '">' . $name['display_name'] . '</a> 
                         
                         <span style="justify-self:end;">' 
