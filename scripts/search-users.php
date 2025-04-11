@@ -1,6 +1,6 @@
 <?php
 
-require("db-connect.php");
+require("./../db-connect.php");
 
 $sort = $_GET['sort'] ?? 'recent';
 
@@ -20,19 +20,15 @@ switch ($sort) {
         $order = "ORDER BY display_name DESC";
         break;
         
-
   default:
     $order = "ORDER BY display_name ASC";
 }
-
-
 
 
 $name = isset($_GET['user_name']) ? '%' .  $_GET['user_name'] . '%' : '%';
 
 
 $sql = "SELECT * FROM user WHERE display_name LIKE ?  $order;";
-
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $name);
 $stmt->execute();
@@ -45,7 +41,7 @@ if (!$stmt) {
 
 
 if (!function_exists('create_user_badge')) {
-    include("userBadge.php");
+    include("./../components/userBadge.php");
 }
 
 

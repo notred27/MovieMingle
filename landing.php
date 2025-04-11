@@ -1,58 +1,41 @@
 <?php
-session_start(); 
-
-session_unset();  
-session_destroy(); 
-
+// Clear session when user logs out
+    session_start(); 
+    session_unset();  
+    session_destroy(); 
 ?>
-
 
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>My First Realistic Web Page</title>
+    <title>Movie Mash</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="landing.css">
-
-
-
+    <link rel="stylesheet" href="./styles/landing.css">
 </head>
 
 <body>
     
     <main>
-
         <div id="accountCreated" class="toast"></div>
-
-        
-
-
 
         <div class="landingContainer">
 
             <div>
-                <h1>Movie Mingle</h1>
-
-
+                <h1>Movie Mash</h1>
             </div>
 
             <div>
 
                 Login to your account
 
-
-
-                <form action="check-credentials.php" method="post">
-
+                <form action="./scripts/check-credentials.php" method="post">
                     <input type="text" id="username" name="username" placeholder="Username" required>
-
                     <br/>
 
                     <input type="password" id="password" name="password" placeholder="Password" required>
                     <br/>
-
 
                     <a href="">Forgot password?</a>
 
@@ -62,14 +45,9 @@ session_destroy();
                     <br/>
 
                     <a href="create-account.html">Don't have an account? Create one here.</a>
-
                 </form>
             </div>
-
         </div>
-
-
-
 
     </main>
 

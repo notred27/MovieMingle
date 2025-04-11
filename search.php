@@ -1,7 +1,5 @@
 <?php
-require("db-connect.php");
-
-
+    require("db-connect.php");
 ?>
 
 <!DOCTYPE html>
@@ -10,13 +8,11 @@ require("db-connect.php");
 <head>
     <title>Movie Mash</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-
-
+    <link rel="stylesheet" href="./styles/styles.css">
 </head>
 
 <body>
-    <?php include('web-header.php'); ?>
+    <?php include('./components/web-header.php'); ?>
 
     <main>
 
@@ -57,8 +53,6 @@ require("db-connect.php");
 
             <button type="submit">Search</button>
         </form>
-
-        
     </div>
 
 
@@ -81,13 +75,12 @@ require("db-connect.php");
         
 
     </main>
+
     <footer>
         <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
     </footer>
 
-
     <script>
-
         let lastSearchType = 'movies';
 
         function get_movies() {
@@ -99,7 +92,7 @@ require("db-connect.php");
             const sortOption = document.getElementById('sort-option').value;
 
 
-            fetch(`search-movies.php?` + params.toString() + `&sort=${sortOption}`)
+            fetch(`./scripts/search-movies.php?` + params.toString() + `&sort=${sortOption}`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('results').innerHTML = data;
@@ -121,7 +114,7 @@ require("db-connect.php");
             const sortOption = document.getElementById('sort-option').value;
 
 
-            fetch(`search-users.php?` + params.toString() + `&sort=${sortOption}`)
+            fetch(`./scripts/search-users.php?` + params.toString() + `&sort=${sortOption}`)
                 .then(response => response.text())
                 .then(data => {
                     console.log("Hellow");

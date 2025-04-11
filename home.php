@@ -10,8 +10,8 @@ $sql = "SELECT * FROM review ORDER BY watch_date DESC";
 $reviews = $conn->query($sql);
 
 
-include('movieBanner.php');
-include('movieReviewPreview.php');
+include('./components/movieBanner.php');
+include('./components/movieReviewPreview.php');
 
 ?>
 
@@ -21,18 +21,15 @@ include('movieReviewPreview.php');
 <html lang="en">
 
 <head>
-    <title>Movie Mingle</title>
+    <title>Movie Mash</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="movieReviewPreview.css">
-
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/movieReviewPreview.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 
 <body>
-    <?php include('web-header.php'); ?>
+    <?php include('./components/web-header.php'); ?>
     <main>
 
 
@@ -102,6 +99,7 @@ include('movieReviewPreview.php');
     <footer>
         <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
     </footer>
+    <script src="./scripts/movie-dropdown.js" defer></script>
 </body>
 
 </html>

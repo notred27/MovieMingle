@@ -1,5 +1,5 @@
 <?php
-require("db-connect.php");
+require("./../db-connect.php");
 
 $club_name = htmlspecialchars($_GET['CLUB']); 
 

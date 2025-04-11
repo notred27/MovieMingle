@@ -1,5 +1,5 @@
 <?php
-require("db-connect.php");
+require("./../db-connect.php");
 
 $friend_id = $_GET['friend_id']; 
 
@@ -29,11 +29,8 @@ if ($stmt->execute()) {
 
     }
 
-   
-
 } else {
     echo "Error: " . $stmt->error;
-
 }
 
 

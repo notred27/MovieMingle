@@ -23,30 +23,26 @@
 <html lang="en">
 
     <head>
-        <title>Movie Mingle</title>
+        <title>Movie Mash</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="userpage.css">
-        <link rel="stylesheet" href="movieReviewPreview.css">
-        <link rel="stylesheet" href="poll.css">
-
+        <link rel="stylesheet" href="./styles/styles.css">
+        <link rel="stylesheet" href="./styles/userpage.css">
+        <link rel="stylesheet" href="./styles/movieReviewPreview.css">
+        <link rel="stylesheet" href="./styles/poll.css">
 
         <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-
-   
-
     </head>
 
     <body>
 
 
-    <?php include('web-header.php'); ?>
+    <?php include('./components/web-header.php'); ?>
     <main>
 
     <?php 
         
         if (!function_exists('create_user_badge')) {
-            include("userBadge.php");
+            include("./components/userBadge.php");
         }
 
         $sql = "SELECT user.display_name, user.user_id, user.user_img, member_of.admin_level FROM member_of JOIN user on user.user_id = member_of.user_id where member_of.club_name = ?;";
@@ -109,7 +105,7 @@
         
         <div>
             <?php 
-                include('poll.php');
+                include('./components/poll.php');
 
 
                 $sql = "SELECT * from poll where in_club = ?;";
@@ -131,7 +127,7 @@
 
         <div>
             <?php 
-                include('movieReviewPreview.php');
+                include('./components/movieReviewPreview.php');
 
 
                 $sql = "SELECT * from review where in_club = ?;";
@@ -160,13 +156,13 @@
 
     
 function selectOption(poll, option) {
-    fetch(`select-poll-option.php?poll_id=${poll}&opt_id=${option}`)
+    fetch(`./scripts/select-poll-option.php?poll_id=${poll}&opt_id=${option}`)
     .catch(error => console.error("Error fetching sorted data:", error));
 
 }
 
 function changeOption(poll, option) {
-    fetch(`change-poll-option.php?poll_id=${poll}&opt_id=${option}`)
+    fetch(`./scripts/change-poll-option.php?poll_id=${poll}&opt_id=${option}`)
     .catch(error => console.error("Error fetching sorted data:", error));
 
 }
@@ -176,7 +172,7 @@ function changeOption(poll, option) {
 function toggleMember() {
 
 
-    fetch(`toggle-club-member.php?CLUB=${<?php echo json_encode($club["club_name"]); ?>}`)
+    fetch(`./scripts/toggle-club-member.php?CLUB=${<?php echo json_encode($club["club_name"]); ?>}`)
         .then(response => response.text())
         .then(data => {
 

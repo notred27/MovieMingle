@@ -1,7 +1,7 @@
 <?php
-require("db-connect.php");
+require("./db-connect.php");
 
-include('movieReview.php');
+include('./components/movieReview.php');
 
 
 // Get url variable
@@ -24,17 +24,6 @@ $stmt->execute();
 $user_reviews = $stmt->get_result();
 
 
-// Get reviews from friends
-// $sql = "SELECT * 
-//         FROM review 
-//         JOIN ((SELECT user_id as id 
-//                FROM friends 
-//                WHERE friend_id = ?) 
-//                     UNION 
-//               (SELECT friend_id as id 
-//                FROM friends 
-//                WHERE user_id = ?)) as F 
-//             on F.id = review.user_id WHERE imdb = ? ORDER BY watch_date DESC;";
 
 $sql = "SELECT * 
         FROM review 
@@ -92,25 +81,22 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
 <html lang="en">
 
 <head>
-    <title>Movie Mingle</title>
+    <title>Movie Mash</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="moviepage.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/moviepage.css">
+    <link rel="stylesheet" href="./styles/movieReviewPreview.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="movieReviewPreview.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 
 <body>
-    <?php include('web-header.php'); ?>
+    <?php include('./components/web-header.php'); ?>
 
     <main>
 
 <!-- Create a form to add new reviews -->
     <div id = "reviewMenu" style = "display:none; width:60vw; height:70vh; background-color:#282828; position:absolute; top:15vh; left:20vw; z-index:200;">
-        <form  action="create-review.php" method="post" >
+        <form  action="./scripts/create-review.php" method="post" >
             <input type="number" min="0" max = "10" id="rating" name="rating" placeholder="Rating" required>
             <br/>
             <input type="text" id="reviewContent" name="reviewContent" placeholder="Review">
@@ -181,7 +167,7 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
             // $ratingHTML2 .= '(' . $avg_friend_rating["rating"] . ')</span>';
 
             if (!function_exists('generate_stars')) {
-                include("stars.php");
+                include("./components/stars.php");
             }
              
 
@@ -202,43 +188,47 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
 
     <h3> Your reviews </h3>
 
-    <?php 
-        if ($user_reviews->num_rows > 0) { 
-            while ($review = $user_reviews->fetch_assoc()) {
-                create_movie_review($review, $conn);
-            }
-        } else {
-            echo "You haven''t reviewed this movie yet!";
-        }
-    ?>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill,540px);column-gap:10px; row-gap:10px;">
 
+        <?php 
+            if ($user_reviews->num_rows > 0) { 
+                while ($review = $user_reviews->fetch_assoc()) {
+                    create_movie_review($review, $conn);
+                }
+            } else {
+                echo "You haven''t reviewed this movie yet!";
+            }
+        ?>
+    </div>
 
     <h3> Reviews from people you follow </h3>
 
-    <?php 
+    <div style="display:grid; grid-template-columns: repeat(auto-fill,540px);column-gap:10px; row-gap:10px;">
 
-        if ($friend_reviews->num_rows > 0) { 
-            while ($review = $friend_reviews->fetch_assoc()) {
-                create_movie_review($review, $conn);
+        <?php 
+            if ($friend_reviews->num_rows > 0) { 
+                while ($review = $friend_reviews->fetch_assoc()) {
+                    create_movie_review($review, $conn);
+                }
+            } else {
+                echo "No reviews from Friends found :(";
             }
-        } else {
-            echo "No reviews from Friends found :(";
-        }
-
-    ?>
+        ?>
+    </div>
 
 
     <h3> Other reviews</h3>
-
-    <?php 
-        if ($other_reviews->num_rows > 0) { 
-            while ($review = $other_reviews->fetch_assoc()) {
-                create_movie_review($review, $conn);
+    <div style="display:grid; grid-template-columns: repeat(auto-fill,540px);column-gap:10px; row-gap:10px;">
+        <?php 
+            if ($other_reviews->num_rows > 0) { 
+                while ($review = $other_reviews->fetch_assoc()) {
+                    create_movie_review($review, $conn);
+                }
+            } else {
+                echo "No other reviews found :(";
             }
-        } else {
-            echo "No other reviews found :(";
-        }
-    ?>
+        ?>
+    </div>
         
 
     </main>
@@ -256,6 +246,10 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
             }
         }
     </script>
+
+
+
+<script src="./scripts/movie-dropdown.js" defer></script>
 </body>
 
 </html>

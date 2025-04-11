@@ -1,8 +1,8 @@
 <?php
-// load_rows.php
-require("db-connect.php");
+// Script to sort movie rows for a user's page
+require("./../db-connect.php");
 
-include('movieReviewPreview.php');
+include('./../components/movieReviewPreview.php');
 
 
 $sort = $_GET['sort'] ?? 'recent';

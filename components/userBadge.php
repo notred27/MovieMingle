@@ -1,8 +1,8 @@
 
 <?php 
+// Creates HTML to represent other user's names and profile images (clickable to go to user's page)
 
     function create_user_badge($user, $conn) {
-
         $sql = "SELECT COUNT(*) as c FROM friends WHERE user_id = ? AND friend_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $_SESSION["user_id"], $user["user_id"]);
@@ -20,5 +20,4 @@
             </div>';
 
     }
-
 ?>

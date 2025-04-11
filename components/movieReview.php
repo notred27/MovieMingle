@@ -38,6 +38,20 @@ function create_movie_review($review, $conn) {
                         <span style="justify-self:end;">' 
                         . generate_stars($rating) .  
                         '</span>
+
+                        <div class="menuContainer">
+                            <img class="menuIcon" src="./assets/menu.svg" alt="menuIcon">
+                            <div class="dropdownMenu">';
+
+    if($_SESSION["user_id"] == $review["user_id"]){
+    $html .=                    '<a href="" class = "deleteBtn" data-imdb="' . $review["imdb"] . '" data-watch="' . $review["watch_date"] . '">Delete</a>';
+    }
+                            
+    $html .=                    '<a href="#">Report</a>
+                            </div>
+                        </div>
+
+
                     </div>
                     <p class="fullReviewText">' . $review["content"] .'</p>
                     <h6>Watched ' . $ds->format('M d, Y') . '</h6>

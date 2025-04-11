@@ -1,6 +1,6 @@
 <?php
 
-require("db-connect.php");
+require("./../db-connect.php");
 
 $sort = $_GET['sort'] ?? 'recent';
 
@@ -90,7 +90,7 @@ if (!empty($params)) {
 $stmt->execute();
 $result =  $stmt->get_result();
 
-include('movieBanner.php');
+include('./../components/movieBanner.php');
 
 
 if ($result->num_rows > 0){

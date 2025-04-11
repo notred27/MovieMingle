@@ -1,5 +1,5 @@
 <?php 
-
+// Takes in a rating and generates HTML to represent the score in terms of stars (using images).
 
 function generate_stars($rating) {
     $html = '<span style="display:flex;flex-direction:row;">';

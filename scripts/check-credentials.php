@@ -56,17 +56,17 @@ try {
             $_SESSION['user_id'] = $row['user_id'];
 
 
-            header("Location: home.php");
+            header("Location: ./../home.php");
 
         } else {
             // Invalid login credentials
-            header("Location: landing.php?error=invalid_pwd");
+            header("Location: ./../landing.php?error=invalid_pwd");
         }
 
 
     } else {
         // User does not exist
-        header("Location: landing.php?error=account_not_found");
+        header("Location: ./../landing.php?error=account_not_found");
     }
 
 

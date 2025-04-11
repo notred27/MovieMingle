@@ -16,27 +16,23 @@
 <html lang="en">
 
 <head>
-    <title>Movie Mingle</title>
+    <title>Movie Mash</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="userpage.css">
-    <link rel="stylesheet" href="movieReviewPreview.css">
-
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/userpage.css">
+    <link rel="stylesheet" href="./styles/movieReviewPreview.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 
 <body>
 
-<?php include('web-header.php'); ?>
+<?php include('./components/web-header.php'); ?>
 <main>
 
     <?php 
     
         if (!function_exists('create_user_badge')) {
-            include("userBadge.php");
+            include("./components/userBadge.php");
         }
     
         $sql = "SELECT user.display_name, user.user_id, user.user_img FROM user JOIN friends on user.user_id = friends.user_id where friend_id = ?;";
@@ -118,13 +114,6 @@
     </div>
 
 
-    <?php include("stars.php");
-    
-    generate_stars(3);
-
-    generate_stars(10);
-
-    ?>
 
     <h2>Your Reviews <?php echo '(<span id="numReviews"> </span>)'; ?></h2>
 
@@ -151,12 +140,15 @@
         <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
     </footer>
 
+<script src="./scripts/movie-dropdown.js" defer></script>
+
+
     <script>
         function sortReviews() {
 
             const sortOption = this.value;
 
-            fetch(`load_rows.php?sort=${sortOption}&id=${<?php echo json_encode($target_user_id); ?>}`)
+            fetch(`./scripts/load-rows.php?sort=${sortOption}&id=${<?php echo json_encode($target_user_id); ?>}`)
                 .then(response => response.text())
                 .then(data => {
 
@@ -178,7 +170,7 @@
         function changeFriend() {
 
 
-        fetch(`toggle-friend.php?friend_id=${<?php echo json_encode($target_user_id); ?>}`)
+        fetch(`./scripts/toggle-friend.php?friend_id=${<?php echo json_encode($target_user_id); ?>}`)
             .then(response => response.text())
             .then(data => {
 
@@ -223,6 +215,8 @@
     }
    
     </script>
+
+
 </body>
 
 </html>
