@@ -1,7 +1,7 @@
 
 
 <?php 
-
+// This file creates a poll 
 
 function create_poll_html($poll, $conn) {
 
@@ -28,11 +28,24 @@ function create_poll_html($poll, $conn) {
     $vote = $stmt->get_result();
 
 
+    $is_admin = false;
+
+    $stmt = $conn->prepare("SELECT admin_level FROM member_of WHERE user_id = ? AND club_name = ?");
+    $stmt->bind_param("ss", $_SESSION["user_id"], $poll["in_club"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $is_admin = in_array($row["admin_level"], ["ADM", "OWN"]); 
+    }
+    
+
+
+
    if($vote->num_rows == 0) {
     // You have not voted in this poll yet
-   
-
-        $html = '<div class="PollContainer"> 
+        $html = '<div id="poll-' . $poll["poll_id"] . '" class="PollContainer" > 
                     
                     <div class=""> 
                         
@@ -46,7 +59,7 @@ function create_poll_html($poll, $conn) {
                             while ($option = $options->fetch_assoc()) {
                                 $html .= '<input type = "radio" id="' .$option["option_id"] .'" name = "'. $poll["poll_id"] .'" 
                                 
-                                 onclick = "selectOption(`'. json_encode($poll["poll_id"]) .'`, `' .json_encode($option["option_id"]) . '`)">
+                                 onclick = "selectOption('. json_encode($poll["poll_id"]) .', ' .json_encode($option["option_id"]) . ')">
                                 
                                 <label for="'. $option["option_id"] . '"> ' . $option["option_desc"] . '</label>
                                  <br>';
@@ -61,7 +74,25 @@ function create_poll_html($poll, $conn) {
                             <img class = "profileImg" src="' . $name['user_img'] . '" alt="User icon"> 
                             <a href ="userpage.php?USER=' . $poll["user_id"] . '">' . $name['display_name'] . '</a> 
                             <h6>Posted ' . $ds->format('M d, Y') . '</h6>
+
+
+                            <div class="menuContainer">
+                                <img class="menuIcon" src="./assets/menu.svg" alt="menuIcon">
+                                <div class="dropdownMenu">';
+    
+    if($_SESSION["user_id"] == $poll["user_id"] || $is_admin){
+    $html .=                    '<a href="" class = "deletePoll" data-poll-id="' . $poll["poll_id"] . '">Delete</a>';
+    }
+                            
+    $html .=                    '<a href="#">Report</a>
+
+                            </div>
+                        </div>
+
                     </div>
+
+                    
+                    
                 </div>';
 
         echo $html;
@@ -84,7 +115,7 @@ function create_poll_html($poll, $conn) {
             $total_votes += $row['num_votes'];
         }
 
-        $html = '<div class="PollContainer"> 
+        $html = '<div id="poll-' . $poll["poll_id"] . '" class="PollContainer"> 
                     
                     <div class=""> 
                         
@@ -102,7 +133,7 @@ function create_poll_html($poll, $conn) {
                                 $color = $option["option_id"] == $user_vote ? 'yourvote' : 'othervote';
 
                                 $html .= '<div class="poll-result">
-                                                <div class ="optionText" onclick = "changeOption(`'. json_encode($poll["poll_id"]) .'`, `' .json_encode($option["option_id"]) . '`)"> <span class="numVotes">(' . $percent . '%)</span>  ' . htmlspecialchars($option["option_desc"]) . '  </div>
+                                                <div class ="optionText" onclick = "changeOption('. json_encode($poll["poll_id"]) .', ' .json_encode($option["option_id"]) . ')"> <span class="numVotes">(' . $percent . '%)</span>  ' . htmlspecialchars($option["option_desc"]) . '  </div>
                                                 
                                                 <div class="bar '. $color .'" style="--target-width:' . $percent . '%;">
                                                     
@@ -119,6 +150,20 @@ function create_poll_html($poll, $conn) {
                             <img class = "profileImg" src="' . $name['user_img'] . '" alt="User icon"> 
                             <a href ="userpage.php?USER=' . $poll["user_id"] . '">' . $name['display_name'] . '</a> 
                             <h6>Posted ' . $ds->format('M d, Y') . '</h6>
+
+
+                                                        <div class="menuContainer">
+                                <img class="menuIcon" src="./assets/menu.svg" alt="menuIcon">
+                                <div class="dropdownMenu">';
+    
+    if($_SESSION["user_id"] == $poll["user_id"] || $is_admin){
+    $html .=                    '<a href="" class = "deletePoll" data-poll-id="' . $poll["poll_id"] . '">Delete</a>';
+    }
+                            
+    $html .=                    '<a href="#">Report</a>
+
+                            </div>
+                        </div>
                     </div>
                 </div>';
 

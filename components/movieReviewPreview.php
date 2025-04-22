@@ -27,6 +27,21 @@ function create_movie_review_preview($review, $conn) {
     }
 
 
+    $is_admin = false;
+
+    if($review['in_club']) {
+        $stmt = $conn->prepare("SELECT admin_level FROM member_of WHERE user_id = ? AND club_name = ?");
+        $stmt->bind_param("ss", $_SESSION["user_id"], $review["in_club"]);
+        $stmt->execute();
+        $r = $stmt->get_result();
+        
+        if ($r->num_rows > 0) {
+            $row = $r->fetch_assoc();
+            $is_admin = in_array($row["admin_level"], ["ADM", "OWN"]); 
+        }
+    }
+
+
     $html = '<div class="movieReview PreviewContainer"> 
                 <a href = "movie.php?ID='. $review["imdb"] .'">
                     <img src="' . $result["movie_poster"] . '" alt="Movie Poster">
@@ -45,7 +60,7 @@ function create_movie_review_preview($review, $conn) {
                             <img class="menuIcon" src="./assets/menu.svg" alt="menuIcon">
                             <div class="dropdownMenu">';
     
-    if($_SESSION["user_id"] == $review["user_id"]){
+    if($_SESSION["user_id"] == $review["user_id"] || $is_admin){
     $html .=                    '<a href="" class = "deleteBtn" data-imdb="' . $review["imdb"] . '" data-watch="' . $review["watch_date"] . '">Delete</a>';
     }
                             

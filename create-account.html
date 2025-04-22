@@ -74,16 +74,13 @@
 
         const params = new URLSearchParams(window.location.search);
         if (params.has("email") && params.get("email") === "in_use") {
-            // Trigger a toast or alert for success
-            showToast("This email is already in use!");  // Show message if email is in use
-            
-            // Clean up the URL by removing the parameter to avoid it reappearing on reload
+            // Trigger toast
+            showToast("This email is already in use!");
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Function to show a toast message (using alert for now, you can replace it with a real toast)
         function showToast(message) {
-            alert(message); // For now, using alert as a placeholder
+            alert(message);
         }
 
 

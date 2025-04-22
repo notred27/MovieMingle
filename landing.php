@@ -23,23 +23,24 @@
         <div class="landingContainer">
 
             <div>
-                <h1>Movie Mash</h1>
+                <h1 style="font-size:60px;color:#D5FC51;font-weight:bold;">Movie Mash</h1>
+                <p>Connect with fellow movie lovers and find the films people are talking about!</p>
             </div>
 
             <div>
 
                 Login to your account
 
-                <form action="./scripts/check-credentials.php" method="post">
+                <form action="./scripts/check-credentials.php" method="post" style="display:flex; flex-direction:column; justify-content:center;">
                     <input type="text" id="username" name="username" placeholder="Username" required>
-                    <br/>
+                    <!-- <br/> -->
 
                     <input type="password" id="password" name="password" placeholder="Password" required>
                     <br/>
 
-                    <a href="">Forgot password?</a>
+                    <!-- <a href="">Forgot password?</a> -->
 
-                    <br/>
+                    <!-- <br/> -->
 
                     <button type="submit">Login</button>
                     <br/>
@@ -58,7 +59,6 @@
             toast.textContent = message;
             toast.classList.add("show");
 
-            // Hide after 3 seconds
             setTimeout(() => {
                 toast.classList.remove("show");
             }, 3000);

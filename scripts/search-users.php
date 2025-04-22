@@ -35,11 +35,6 @@ $stmt->execute();
 $results = $stmt->get_result();
 
 
-if (!$stmt) {
-    die("Query preparation failed: " . $conn->error); // Debugging step
-}
-
-
 if (!function_exists('create_user_badge')) {
     include("./../components/userBadge.php");
 }

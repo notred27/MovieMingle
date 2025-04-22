@@ -3,13 +3,14 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #6a6a6a;
+    background-color: #141414;
 }
 
 .landingContainer {
     display: flex;
     flex-direction: row;
-    background-color: rgb(214, 214, 214);
+    background-color: #282828;
+    color:white;
     width: 80vw;
     height: 90vh;
     border-radius: 4px;
@@ -48,4 +49,13 @@ body {
 .toast.show {
     visibility: visible;
     opacity: 1;
+}
+
+a:visited{
+    color:#BFFC57;
+}
+
+a:link {
+    color:#BFFC57;
+
 }

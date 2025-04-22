@@ -142,30 +142,6 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
                 $r = $runtime;
             }
 
-            // // Generate stars (example: assuming a rating integer value)
-            // $rating = $avg_rating["rating"] / 2; 
-            // $ratingHTML = '<span>';
-            // for ($i = 1; $i <= 5; $i++) {
-            //     if ($i <= $rating) {
-            //         $ratingHTML .= '<span class="fa fa-star checked"></span>';
-            //     } else {
-            //         $ratingHTML .= '<span class="fa fa-star"></span>';
-            //     }
-            // }
-            // $ratingHTML .= '(' . $avg_rating["rating"] . ')</span>';
-
-            
-            // $friend_rating = $avg_friend_rating["rating"] / 2; 
-            // $ratingHTML2 = '<span>';
-            // for ($i = 1; $i <= 5; $i++) {
-            //     if ($i <= $rating) {
-            //         $ratingHTML2 .= '<span class="fa fa-star checked"></span>';
-            //     } else {
-            //         $ratingHTML2 .= '<span class="fa fa-star"></span>';
-            //     }
-            // }
-            // $ratingHTML2 .= '(' . $avg_friend_rating["rating"] . ')</span>';
-
             if (!function_exists('generate_stars')) {
                 include("./components/stars.php");
             }
@@ -184,7 +160,7 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
 
 
 
-    <h3>You may also like</h3>
+    <!-- <h3>You may also like</h3> -->
 
     <h3> Your reviews </h3>
 
@@ -233,7 +209,7 @@ $avg_friend_rating = $stmt->get_result()->fetch_assoc();
 
     </main>
     <footer>
-        <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
+        <p>&copy; 2025 Movie Mash. All rights reserved.</p>
     </footer>
 
     <script>

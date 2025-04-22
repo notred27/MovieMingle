@@ -1,7 +1,6 @@
 <?php
 // This file creates HTML for a full version of a review (which doesn't contain a movie poster)
 
-
 function create_movie_review($review, $conn) {    
        // Get information about the movie
     $sql = "SELECT title, movie_poster FROM movie WHERE imdb = ?";

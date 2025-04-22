@@ -9,6 +9,8 @@
     <title>Movie Mash</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/club.css">
+
 </head>
 
 <body>
@@ -25,23 +27,23 @@
             <input type="text" id="release_year" name="release_year" placeholder="Release Year" >
             <br />
 
-            <input type="text" id="genres" name="genres" placeholder="Genres">
+            <!-- <input type="text" id="genres" name="genres" placeholder="Genres">
             <br />
 
             <input type="text" id="key_words" name="key_words" placeholder="Key words" value="<?= htmlspecialchars($_GET['key_words'] ?? '') ?>">
-            <br />
+            <br /> -->
 
             <button type="submit">Search</button>
         </form>
 
 
         <form id = "clubForm">
-            <h3 style="margin:2px;">Users</h3>
+            <h3 style="margin:2px;">Clubs</h3>
             <input type="text" id="club_name" name="club_name" placeholder="Club Name">
             <br />
 
-            <input type="text" id="club_topics" name="club_topics" placeholder="Club Topics">
-            <br />
+            <!-- <input type="text" id="club_topics" name="club_topics" placeholder="Club Topics">
+            <br /> -->
 
             <button type="submit">Search</button>
         </form>
@@ -77,7 +79,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
+        <p>&copy; 2025 Movie Mash. All rights reserved.</p>
     </footer>
 
     <script>
@@ -117,7 +119,27 @@
             fetch(`./scripts/search-users.php?` + params.toString() + `&sort=${sortOption}`)
                 .then(response => response.text())
                 .then(data => {
-                    console.log("Hellow");
+                    document.getElementById('results').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    document.getElementById('results').innerHTML = "<p>Error loading search results.</p>";
+                });
+        }
+
+        function get_clubs() {
+            // e.preventDefault();
+
+            const formData = new FormData(document.getElementById('clubForm'));
+            const params = new URLSearchParams(formData);
+
+            const sortOption = document.getElementById('sort-option').value;
+
+
+            fetch(`./scripts/search-clubs.php?` + params.toString() + `&sort=${sortOption}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("HEREHHH")
                     document.getElementById('results').innerHTML = data;
                 })
                 .catch(error => {
@@ -134,6 +156,13 @@
         });
 
 
+        document.getElementById('clubForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            get_clubs();
+            lastSearchType = 'club';
+
+        });
+
         document.getElementById('userForm').addEventListener('submit', function(e) {
             e.preventDefault();
             get_users();
@@ -149,6 +178,8 @@
             get_movies();
         } else if (lastSearchType == "users") {
             get_users();
+        } else if (lastSearchType == "club") {
+            get_clubs();
         }
         });
 

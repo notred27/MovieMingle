@@ -1,17 +1,35 @@
 <?php
 require("db-connect.php");
 
-// Fetch all movies
-$sql = "SELECT * FROM movie";
+// Fetch recent popular movies
+$sql = "SELECT m.*, COUNT(r.imdb) AS review_count
+        FROM movie m JOIN review r ON m.imdb = r.imdb
+        WHERE r.watch_date >= NOW() - INTERVAL 30 DAY
+        GROUP BY m.imdb ORDER BY review_count DESC LIMIT 30;";
 $movies = $conn->query($sql);
 
-// Fetch all reviews
-$sql = "SELECT * FROM review ORDER BY watch_date DESC";
-$reviews = $conn->query($sql);
 
+
+$sql = "SELECT r.* 
+        FROM review r
+        JOIN friends f ON r.user_id = f.friend_id
+        WHERE f.user_id = ?
+        ORDER BY r.watch_date DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $_SESSION["user_id"]);
+$stmt->execute();
+$reviews = $stmt->get_result();
+
+
+// Fetch all polls
+$sql = "SELECT * FROM poll ORDER BY post_date DESC";
+$polls = $conn->query($sql);
 
 include('./components/movieBanner.php');
 include('./components/movieReviewPreview.php');
+include('./components/poll.php');
+
 
 ?>
 
@@ -24,6 +42,8 @@ include('./components/movieReviewPreview.php');
     <title>Movie Mash</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/poll.css">
+
     <link rel="stylesheet" href="./styles/movieReviewPreview.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
 </head>
@@ -33,7 +53,7 @@ include('./components/movieReviewPreview.php');
     <main>
 
 
-        <h2>Movies in the database:</h2>
+        <h2>Popular movies this month:</h2>
 
         <div class="horizontalContainer container"> 
 
@@ -51,7 +71,7 @@ include('./components/movieReviewPreview.php');
 
 
 
-        <h2>Recent reviews from friends:</h2>
+        <h2>Recent reviews from people you follow:</h2>
        
         <div class="horizontalContainer container"> 
             
@@ -73,18 +93,15 @@ include('./components/movieReviewPreview.php');
         <div class="horizontalContainer container">
 
 
-            <div class="movieComment">
-                <div>
-                    <img src="me.png" alt="User icon">
-                    <h4>Username</h4>
-                </div>
-
-                <p>
-                    blah blah blah blah this is a movie review
-                </p>
-
-                <h6>Dec 12, 2024</h6>
-            </div>
+            <?php 
+                if ($polls->num_rows > 0) { 
+                    while ($poll = $polls->fetch_assoc()) {
+                        create_poll_html($poll, $conn); 
+                    }
+                } else {
+                    echo "No polls found :(";
+                }
+            ?>
 
         </div>
 
@@ -97,9 +114,29 @@ include('./components/movieReviewPreview.php');
 
     </main>
     <footer>
-        <p>&copy; 2023 Michael Reidy. All rights reserved.</p>
+        <p>&copy; 2025 Movie Mash. All rights reserved.</p>
     </footer>
     <script src="./scripts/movie-dropdown.js" defer></script>
+
+    <script>
+        // Initial option on a poll
+        function selectOption(poll, option) {
+            fetch(`./scripts/select-poll-option.php?poll_id=${poll}&opt_id=${option}`)
+                .catch(error => console.error("Error fetching sorted data:", error));
+        }
+
+        // Change option on a poll
+        function changeOption(poll, option) {
+            fetch(`./scripts/change-poll-option.php?poll_id=${poll}&opt_id=${option}`)
+                .then(response => response.text())
+                .then(html => {
+                    const pollContainer = document.getElementById(`poll-${poll}`);
+                    pollContainer.innerHTML = html;
+                })
+                .catch(error => console.error("Error updating poll:", error));
+        }
+
+    </script>
 </body>
 
 </html>

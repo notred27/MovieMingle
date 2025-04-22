@@ -17,8 +17,6 @@ date_default_timezone_set('America/New_York');
 $date = date('Y-m-d h:i:s', time());
 
 
-
-
 //Create the new review
 $stmt = $conn->prepare("INSERT INTO review (user_id, imdb, watch_date, rating, content, in_club) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssssss", $_SESSION["user_id"], $imdb, $date, $rating, $review_text, $club);

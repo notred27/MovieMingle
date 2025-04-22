@@ -12,12 +12,12 @@
         $status["color"] =  $status["c"] == 1 ? "#D5FC51" : "#FFFFFF";
 
 
-        echo '<div>
-                <img alt = "profileImg" src = "'. $user["user_img"] .'" style="width:40px; height:40px; border-radius:20px;">
-                <a href = "userpage.php?USER=' . $user["user_id"] . '" style="font-size: larger;text-decoration: none;font-weight:bold;color:' .  $status["color"] . ';">' .
-                    $user["display_name"] . 
-                '</a>
-            </div>';
+        echo '<div class = "userBadge" style="display: flex; align-items: center; gap: 10px;" data-id = "'. $user["display_name"] . '">
+        <img alt="profileImg" src="' . $user["user_img"] . '" style="width:40px; height:40px; border-radius:50%;">
+        <a href="userpage.php?USER=' . $user["user_id"] . '" style="font-size: larger; text-decoration: none; font-weight: bold; color:' .  $status["color"] . ';">' .
+            $user["display_name"] . 
+        '</a>
+    </div>';
 
     }
 ?>

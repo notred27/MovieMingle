@@ -59,26 +59,13 @@ try {
             header("Location: ./../home.php");
 
         } else {
-            // Invalid login credentials
             header("Location: ./../landing.php?error=invalid_pwd");
         }
 
 
     } else {
-        // User does not exist
         header("Location: ./../landing.php?error=account_not_found");
     }
-
-
-
-    // // Check if the entered password matches the stored hash
-    // if (password_verify($entered_password, $stored_hash)) {
-    //     echo "Password is correct!";
-    // } else {
-    //     echo "Invalid password!";
-    // }
-
-
 
     $conn->close();
 

@@ -13,7 +13,7 @@ $mem_status = $stmt->get_result();
 if($mem_status->num_rows == 0) {
     // Currently not following, so add follow record
 
-    $stmt = $conn->prepare("INSERT into member_of values (?, ?, 'mem')");
+    $stmt = $conn->prepare("INSERT into member_of values (?, ?, 'MEM')");
     $stmt->bind_param("ss", $club_name , $_SESSION["user_id"]);
     $stmt->execute();
     echo 'Leave';

@@ -1,0 +1,21 @@
+<?php
+    require("./../db-connect.php");
+    
+    // Get data from component 
+    $id = $_POST["id"];
+
+    // Delete review from current session owner with this data
+    $sql = "DELETE FROM poll WHERE poll_id = ?;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+
+    // Echo response for alert in current view
+    if ($stmt->affected_rows > 0) {
+        echo "Success";
+    } else {
+        http_response_code(403);
+        echo "Delete failed (no matching record or not yours)";
+    }
+ 
+?>

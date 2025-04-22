@@ -27,8 +27,6 @@ create table user
 	password_hash 	varchar(255) not NULL,
 	email			varchar(255) not NULL,
 	date_joined 	date not NULL,
-	
-	-- Maybe make this a new table for storage if people don't have these?
 	favorite_movie 	varchar(9) default NULL,
 	user_img 		text,
 
@@ -138,16 +136,3 @@ create table member_of
 	foreign key (user_id) references user(user_id) on delete cascade
 );
 
-
-
-
--- create table manages
--- (
--- 	club_name 	varchar(20) not NULL,
--- 	user_id 	varchar(10) not NULL,
--- 	admin_level char(3) not NULL,
-
--- 	primary key (club_name, user_id),
--- 	foreign key (club_name) references club(club_name) on delete cascade,
--- 	foreign key (user_id) references user(user_id) on delete cascade
--- );

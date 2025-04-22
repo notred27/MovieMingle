@@ -105,7 +105,7 @@ html, body {
 
 main {
     flex: 1;
-    min-height: calc(100vh - 78px - 154px);
+    min-height: calc(100vh - 35px - 154px);
 
 }
 
@@ -183,3 +183,7 @@ footer {
 .container::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+body.menu-open {
+    overflow: hidden;  /* disables scrolling on body */
+  }
